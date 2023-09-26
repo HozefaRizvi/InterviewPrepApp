@@ -58,10 +58,7 @@
 		<valuelist name="Outline Code10" restrict="no" append="yes" autosuffix="no">
 		</valuelist>
 		<groupspec>
-			<outline current="41">
-				<collapse uid="1"/>
-				<collapse uid="9"/>
-				<collapse uid="18"/>
+			<outline current="18">
 				<collapse uid="25"/>
 				<collapse uid="32"/>
 				<collapse uid="35"/>
@@ -72,7 +69,7 @@
 			<task ID="0" UniqueID="0" OutlineLevel="0" WBS="0" Name="GanttChart_First_Draft" FreeSlack="6d" TotalSlack="6d" Duration="10d" DurationVariance="10d" RemainingDuration="10d" Start="2023-09-25T08:00" Finish="2023-10-06T17:00" EarlyStart="2023-09-25T08:00" EarlyFinish="2023-10-06T17:00" LateStart="2023-10-03T08:00" LateFinish="2023-10-06T17:00" Summary="yes"/>
 			<task ID="1" UniqueID="1" OutlineLevel="1" WBS="1" Name="Phase 1: Planning " FreeSlack="6d" TotalSlack="6d" Duration="10d" DurationVariance="10d" RemainingDuration="10d" Start="2023-09-25T08:00" Finish="2023-10-06T17:00" EarlyStart="2023-09-25T08:00" EarlyFinish="2023-10-06T17:00" LateStart="2023-10-03T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" Summary="yes" FixedCostAccrual="Prorated"/>
 			<task ID="2" UniqueID="3" OutlineLevel="2" WBS="1.1" Name="Project Initiation" FreeSlack="9d" TotalSlack="9d" Duration="1d" DurationVariance="1d" RemainingDuration="1d" ConstraintDate="2023-09-25T08:00" Start="2023-09-25T08:00" Finish="2023-09-25T17:00" EarlyStart="2023-09-25T08:00" EarlyFinish="2023-09-25T17:00" LateStart="2023-10-06T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Finish No Earlier Than" FixedCostAccrual="Prorated"/>
-			<task ID="3" UniqueID="4" OutlineLevel="2" WBS="1.2" Name="Research" FreeSlack="5d" TotalSlack="5d" Duration="4d" DurationVariance="4d" RemainingDuration="1d" ConstraintDate="2023-09-26T08:00" Start="2023-09-26T08:00" Finish="2023-09-29T17:00" EarlyStart="2023-09-26T08:00" EarlyFinish="2023-09-29T17:00" LateStart="2023-10-03T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Start No Earlier Than" FixedCostAccrual="Prorated"/>
+			<task ID="3" UniqueID="4" OutlineLevel="2" WBS="1.2" Name="Research" FreeSlack="5d" TotalSlack="5d" Duration="4d" DurationVariance="4d" RemainingDuration="4d" ConstraintDate="2023-09-26T08:00" Start="2023-09-26T08:00" Finish="2023-09-29T17:00" EarlyStart="2023-09-26T08:00" EarlyFinish="2023-09-29T17:00" LateStart="2023-10-03T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Start No Earlier Than" FixedCostAccrual="Prorated"/>
 			<task ID="4" UniqueID="5" OutlineLevel="2" WBS="1.3" Name="Stakeholder meeting" FreeSlack="3d" TotalSlack="3d" Duration="2d" DurationVariance="2d" RemainingDuration="2d" ConstraintDate="2023-09-30T08:00" Start="2023-10-02T08:00" Finish="2023-10-03T17:00" EarlyStart="2023-10-02T08:00" EarlyFinish="2023-10-03T17:00" LateStart="2023-10-05T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Start No Earlier Than" FixedCostAccrual="Prorated"/>
 			<task ID="5" UniqueID="6" OutlineLevel="2" WBS="1.4" Name="Requirement Gathering" FreeSlack="1d" TotalSlack="1d" Duration="2d" DurationVariance="2d" RemainingDuration="2d" ConstraintDate="2023-10-04T08:00" Start="2023-10-04T08:00" Finish="2023-10-05T17:00" EarlyStart="2023-10-04T08:00" EarlyFinish="2023-10-05T17:00" LateStart="2023-10-05T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Start No Earlier Than" FixedCostAccrual="Prorated"/>
 			<task ID="6" UniqueID="7" OutlineLevel="2" WBS="1.5" Name="Feasiblity Study" FreeSlack="1d" TotalSlack="1d" Duration="2d" DurationVariance="2d" RemainingDuration="2d" ConstraintDate="2023-10-04T08:00" Start="2023-10-04T08:00" Finish="2023-10-05T17:00" EarlyStart="2023-10-04T08:00" EarlyFinish="2023-10-05T17:00" LateStart="2023-10-05T08:00" LateFinish="2023-10-06T17:00" EffortDriven="yes" ConstraintType="Start No Earlier Than" FixedCostAccrual="Prorated"/>
@@ -111,8 +108,8 @@
 	</proj>
 	<printInfo mode="scale" orient="landscape" size="1" length="0" width="0" pagesWide="1" pagesHigh="1" scale="100%" bw="no" enlarge="no" byColumn="no" adjustPageBreaks="no" marginTop="36pt" marginLeft="36pt" marginBottom="36pt" marginRight="36pt"/>
 	<pageLayouts>
-		<pageLayoutSpec id="Gantt Chart Page Layout" BorderLegendFormat="outsideused">
-			<header>
+		<pageLayoutSpec id="Gantt Chart Page Layout" description="" BorderEveryPage="no" SheetNumbers="no" Border="yes" Gridlines="yes" BorderLegend="no" BorderLegendFormat="outsideused" TaskFieldLegend="no" SummaryFieldLegend="no" LegendPosition="abovefooter" ChartHAlign="left" ChartValign="top">
+			<header bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -123,7 +120,7 @@
 					
 				</hfsection>
 			</header>
-			<footer>
+			<footer bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -135,8 +132,8 @@
 				</hfsection>
 			</footer>
 		</pageLayoutSpec>
-		<pageLayoutSpec id="Network Chart Page Layout">
-			<header>
+		<pageLayoutSpec id="Network Chart Page Layout" description="" BorderEveryPage="no" SheetNumbers="no" Border="yes" Gridlines="yes" BorderLegend="no" BorderLegendFormat="insideused" TaskFieldLegend="no" SummaryFieldLegend="no" LegendPosition="abovefooter" ChartHAlign="left" ChartValign="top">
+			<header bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -147,7 +144,7 @@
 					
 				</hfsection>
 			</header>
-			<footer>
+			<footer bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -159,8 +156,8 @@
 				</hfsection>
 			</footer>
 		</pageLayoutSpec>
-		<pageLayoutSpec id="Task Sheet Page Layout" BorderEveryPage="yes" Border="no" Gridlines="no">
-			<header>
+		<pageLayoutSpec id="Task Sheet Page Layout" description="" BorderEveryPage="yes" SheetNumbers="no" Border="no" Gridlines="no" BorderLegend="no" BorderLegendFormat="insideused" TaskFieldLegend="no" SummaryFieldLegend="no" LegendPosition="abovefooter" ChartHAlign="left" ChartValign="top">
+			<header bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -171,7 +168,7 @@
 					
 				</hfsection>
 			</header>
-			<footer>
+			<footer bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -183,8 +180,8 @@
 				</hfsection>
 			</footer>
 		</pageLayoutSpec>
-		<pageLayoutSpec id="WBS Chart Page Layout" ChartHAlign="center">
-			<header>
+		<pageLayoutSpec id="WBS Chart Page Layout" description="" BorderEveryPage="no" SheetNumbers="no" Border="yes" Gridlines="yes" BorderLegend="no" BorderLegendFormat="insideused" TaskFieldLegend="no" SummaryFieldLegend="no" LegendPosition="abovefooter" ChartHAlign="center" ChartValign="top">
+			<header bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
@@ -195,7 +192,7 @@
 					
 				</hfsection>
 			</header>
-			<footer>
+			<footer bkcolor="none">
 				<hfsection HAlign="left" Valign="center">
 					
 				</hfsection>
