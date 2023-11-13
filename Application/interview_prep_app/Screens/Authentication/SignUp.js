@@ -1,0 +1,134 @@
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import CustomButton from '../../CustomComponents/CustomButton';
+import { TextInput } from 'react-native-paper';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+export function SignUpScreen({ navigation }) {
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+  const [username, setusername] = useState('');
+
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.img}
+        resizeMode='contain'
+        source={require('../../Logos/signuplogo.png')}
+      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.text}>Sign Up</Text>
+        <TextInput
+          label='Username'
+          value={username}
+          onChangeText={(text) => {
+            setusername(text);
+          }}
+          mode='outlined'
+          style={styles.input}
+          theme={{
+            colors: {
+              primary: 'green',
+            },
+          }}
+        />
+       <TextInput
+          label='Email'
+          value={email}
+          onChangeText={(text) => {
+            setemail(text);
+          }}
+          mode='outlined'
+          style={styles.input}
+          theme={{
+            colors: {
+              primary: 'green',
+            },
+          }}
+        />
+        <TextInput
+          label='Password'
+          value={password}
+          onChangeText={(text) => {
+            setpassword(text);
+          }}
+          mode='outlined'
+          style={styles.input}
+          theme={{
+            colors: {
+              primary: 'green',
+            },
+          }}
+        />
+        <CustomButton
+          title='Sign Up'
+          onPress={() => console.log('Sign Up')}
+          buttonStyle={styles.customButtonStyle}
+          textStyle={styles.customTextStyle}
+        />
+        <View style={styles.signInContainer}>
+          <Text style={styles.signInText}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
+            <Text style={styles.signInLink}>Sign In</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    width: wp('80%'),
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 22,
+    alignSelf: 'flex-start',
+    paddingLeft: wp('0%'),
+    marginBottom: hp('2%'),
+    fontWeight: 'bold',
+    color: 'green',
+  },
+  img: {
+    width: wp('55%'),
+    height: hp('26%'),
+  },
+  input: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    marginBottom: hp('2%'),
+  },
+  customButtonStyle: {
+    backgroundColor: 'green',
+    width: wp('80%'),
+    marginBottom: hp('2%'),
+  },
+  customTextStyle: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  signInContainer: {
+    flexDirection: 'row',
+    marginTop: hp('2%'),
+  },
+  signInText: {
+    fontSize: 14,
+  },
+  signInLink: {
+    fontSize: 14,
+    color: 'blue',
+    fontWeight: 'bold',
+  },
+});
