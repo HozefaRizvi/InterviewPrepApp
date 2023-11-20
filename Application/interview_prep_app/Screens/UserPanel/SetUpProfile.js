@@ -1,33 +1,41 @@
-import React, { useState,useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { TextInput, RadioButton } from 'react-native-paper';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as ImagePicker from 'expo-image-picker';
-import CustomButton from '../../CustomComponents/CustomButton';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { TextInput, RadioButton } from "react-native-paper";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import * as ImagePicker from "expo-image-picker";
+import CustomButton from "../../CustomComponents/CustomButton";
 
-export function SetupProfile({ navigation }) 
-{
-  const [university, setUniversity] = useState('');
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
-  const [cgpa, setCGPA] = useState('');
+export function SetupProfile({ navigation }) {
+  const [university, setUniversity] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [cgpa, setCGPA] = useState("");
   const [expertChecked, setExpertChecked] = useState(false);
   const [interviewChecked, setInterviewChecked] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
 
-  useEffect(() => 
-  {
+  useEffect(() => {
     // Request permission to access the gallery
     (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        console.error('Permission to access gallery was denied');
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        console.error("Permission to access gallery was denied");
       }
     })();
   }, []);
 
-  const pickImage = async () =>
-   {
+  const pickImage = async () => {
     // Launch ImagePicker to choose an image from the gallery
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -47,67 +55,76 @@ export function SetupProfile({ navigation })
         <TouchableOpacity onPress={pickImage}>
           <View style={styles.profileImageContainer}>
             {profileImage ? (
-              <Image source={{ uri: profileImage }} style={styles.profileImage} />
+              <Image
+                source={{ uri: profileImage }}
+                style={styles.profileImage}
+              />
             ) : (
-              <Image source={require('../../Logos/upload.png')} style={styles.profileImage} />
+              <Image
+                source={require("../../Logos/upload.png")}
+                style={styles.profileImage}
+              />
             )}
             <Text style={styles.uploadText}>Upload Profile Picture</Text>
           </View>
         </TouchableOpacity>
-
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.headingText}>Setup Profile</Text>
 
         <TextInput
-          label='Univeristy?'
+          label="Univeristy?"
           value={university}
           onChangeText={(text) => setUniversity(text)}
-          mode='outlined'
+          mode="outlined"
           style={styles.input}
-          theme={{ colors: { primary: '#3498db' } }}
+          theme={{ colors: { primary: "#3498db" } }}
         />
 
         <TextInput
-          label='Country'
+          label="Country"
           value={country}
           onChangeText={(text) => setCountry(text)}
-          mode='outlined'
+          mode="outlined"
           style={styles.input}
-          theme={{ colors: { primary: '#3498db' } }}
+          theme={{ colors: { primary: "#3498db" } }}
         />
 
         <TextInput
-          label='City'
+          label="City"
           value={city}
           onChangeText={(text) => setCity(text)}
-          mode='outlined'
+          mode="outlined"
           style={styles.input}
-          theme={{ colors: { primary: '#3498db' } }}
+          theme={{ colors: { primary: "#3498db" } }}
         />
 
         <TextInput
-          label='CGPA out of 4'
+          label="CGPA out of 4"
           value={cgpa}
           onChangeText={(text) => setCGPA(text)}
-          mode='outlined'
+          mode="outlined"
           style={styles.input}
-          theme={{ colors: { primary: '#3498db' } }}
+          theme={{ colors: { primary: "#3498db" } }}
         />
-        
+
         <RadioButton.Group
-          onValueChange={(newValue) => setExpertChecked(newValue === 'Expert')}
-          value={expertChecked ? 'Expert' : 'Candidate'}
+          onValueChange={(newValue) => setExpertChecked(newValue === "Expert")}
+          value={expertChecked ? "Expert" : "Candidate"}
         >
           <View style={styles.radioButtonContainer}>
             <RadioButton.Item label="Expert" value="Expert" color="#3498db" />
-            <RadioButton.Item label="Candidate" value="Candidate" color="#3498db" />
+            <RadioButton.Item
+              label="Candidate"
+              value="Candidate"
+              color="#3498db"
+            />
           </View>
         </RadioButton.Group>
 
         <RadioButton.Group
-          onValueChange={(newValue) => setInterviewChecked(newValue === 'Yes')}
-          value={interviewChecked ? 'Yes' : 'No'}
+          onValueChange={(newValue) => setInterviewChecked(newValue === "Yes")}
+          value={interviewChecked ? "Yes" : "No"}
         >
           <View style={styles.radioButtonContainer}>
             <Text>Given an interview?</Text>
@@ -117,8 +134,8 @@ export function SetupProfile({ navigation })
         </RadioButton.Group>
 
         <CustomButton
-          title='Setup Profile'
-          onPress={() => navigation.navigate('TabNavigationn')}
+          title="Setup Profile"
+          onPress={() => navigation.navigate("TabNavigationn")}
           buttonStyle={styles.customButtonStyle}
           textStyle={styles.customTextStyle}
         />
@@ -130,61 +147,64 @@ export function SetupProfile({ navigation })
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#ecf0f1',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#eee",
+    alignItems: "center",
+    justifyContent: "center",
+    // marginBottom:'100%',
+    paddingBottom:'90%'
+
   },
   profileContainer: {
-    alignItems: 'center',
-    marginTop: hp('5%'),
+    alignItems: "center",
+    marginTop: hp("5%"),
   },
   profileImageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   profileImage: {
-    width: wp('30%'),
-    height: wp('30%'),
-    borderRadius: wp('15%'),
-    marginBottom: hp('2%'),
+    width: wp("30%"),
+    height: wp("30%"),
+    borderRadius: wp("15%"),
+    marginBottom: hp("2%"),
   },
   uploadText: {
-    color: '#3498db',
+    color: "#3498db",
     fontSize: 16,
   },
   inputContainer: {
-    width: wp('85%'),
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    padding: wp('5%'),
-    borderRadius: wp('2%'),
+    width: wp("85%"),
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    padding: wp("5%"),
+    borderRadius: wp("2%"),
     elevation: 3,
   },
   headingText: {
     fontSize: 22,
-    alignSelf: 'flex-start',
-    paddingLeft: wp('0%'),
-    marginBottom: hp('2%'),
-    fontWeight: 'bold',
-    color: '#3498db',
+    alignSelf: "flex-start",
+    paddingLeft: wp("0%"),
+    marginBottom: hp("2%"),
+    fontWeight: "bold",
+    color: "#3498db",
   },
   input: {
-    width: '100%',
-    backgroundColor: 'transparent',
-    marginBottom: hp('2%'),
+    width: "100%",
+    backgroundColor: "transparent",
+    marginBottom: hp("2%"),
   },
   radioButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: hp('2%'),
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: hp("2%"),
   },
   customButtonStyle: {
-    backgroundColor: '#3498db',
-    width: wp('80%'),
-    marginBottom: hp('2%'),
+    backgroundColor: "#3498db",
+    width: wp("80%"),
+    marginBottom: hp("2%"),
   },
   customTextStyle: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
