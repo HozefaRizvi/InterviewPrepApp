@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import {
   Image,
   ScrollView,
@@ -12,167 +12,133 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import CustomButton from "../../CustomComponents/CustomButton";
+import AuthContext from '../../ReactContext/AuthContext'
+import { useNavigation } from "@react-navigation/native";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 const data = [
   {
     id: 1,
-    title: "Software Testing",
+    title: "CRM Project Manager",
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "The job involves developing project plans, managing project resources, and ensuring that projects are delivered on time and within budget. A CRM project manager should have a degree in business, information technology, or a related field and possess excellent project management skills.",
     imageUrl: require("../../Logos/SoftwareTesting-icon.png"),
     bgColor: "#fff",
     textColor: "#64748b",
   },
   {
     id: 2,
-    title: "Databases",
+    title: "Devops Engineer",
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "A DevOps engineer introduces processes, tools, and methodologies to balance needs throughout the software development life cycle, from coding and deployment, to maintenance and updates. Maybe you want to shift your career to DevOps, or train yourself to drive adoption within your company.",
     imageUrl: require("../../Logos/database-icon.png"),
     bgColor: "#fff",
     textColor: "#64748b",
   },
   {
     id: 3,
-    title: "Software Requirement Engineering",
+    title: "Quality Assurance Engineer",
     imageUrl: require("../../Logos/requirements-icon.png"),
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "A software quality assurance engineer, often referred to as a QA engineer, plays an important role in the software development process by ensuring that the final product meets established quality standards. These professionals are responsible for designing and implementing testing processes to identify software defects, inconsistencies, and areas for improvement",
     bgColor: "#fff",
     textColor: "#64748b",
   },
   {
     id: 4,
-    title: "Quality",
+    title: "Security Engineer",
     imageUrl: require("../../Logos/software-quality.png"),
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      "A security engineer specializes in designing, implementing, and maintaining security measures within an organization's IT infrastructure. They focus on protecting systems, networks, and data from unauthorized access, attacks, and vulnerabilities.",
     bgColor: "#fff",
     textColor: "#64748b",
   },
   {
     id: 5,
-    title: "Introduction to Software Engineering",
+    title: "Software Integration Engineer",
     imageUrl: require("../../Logos/softwareEngineering-icon.png"),
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+      " software integration engineer is a software engineer who specializes in building software applications that focus on integrating with multiple systems. A software integration engineer is well versed in software development, integration patterns, network protocols, security, and databases. ",
     bgColor: "#fff",
     textColor: "#64748b",
   },
-  {
-    id: 6,
-    title: "Mobile Application Development",
-    imageUrl: require("../../Logos/mobile-dev-icon.png"),
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    bgColor: "#fff",
-    textColor: "#64748b",
-  },
+ 
 ];
-
+ 
+  
 export function HomeScreen({ navigation }) {
+  const { user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+  
   return (
-    <ScrollView contentContainerStyle={style.container}>
-      <View
-        style={[
-          {
-            borderRadius: 10,
-            // flexGrow: 1,
-            padding: "4% 8%",
-            backgroundColor: "white",
-            flexDirection: "row",
-            alignItems: "center",
-            columnGap: "20%",
-            width: "100%",
-            marginTop: "5%",
-          },
-          style.boxWithShadow,
-        ]}
-      >
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            style={style.profileImage}
-            source={require("../../Logos/profile.png")}
-          />
-        </TouchableOpacity>
+    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.headerContainer}>
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <Image
+          style={styles.profileImage}
+          source={{ uri: user.ProfilePic }}
+        />
+      </TouchableOpacity>
 
-        <Text
-          style={{
-            color: "#64748b",
-            fontSize: 16,
-            fontWeight: "600",
-          }}
-        >
-          Welcome John Doe
-        </Text>
+      <Text style={styles.welcomeText}>Welcome {user.username}</Text>
+    </View>
 
-        <Text></Text>
+    <Text style={styles.sectionTitle}>Software Engineering Fields</Text>
+    
+    {data.map((field) => (
+      <View key={field.id}>
+        <FieldCard
+          navigation={navigation}
+          title={field.title}
+          content={field.content}
+          bgColor={field.bgColor}
+          textColor={field.textColor}
+          imageUrl={field.imageUrl}
+          onPressButton={() => navigation.navigate("FieldDetailScreen", {
+            title: field.title,
+            content: field.content,
+            imageUrl: field.imageUrl,
+          })}
+        />
       </View>
-      <Text
-        style={{
-          color: "#64748b",
-          fontSize: 20,
-          fontWeight: "700",
-        }}
-      >
-        Software Engineering Fields
-      </Text>
-      {data.map((field) => (
-        <View key={field.id}>
-          <FieldCard
-            navigation={navigation}
-            title={field.title}
-            content={field.content}
-            bgColor={field.bgColor}
-            textColor={field.textColor}
-            imageUrl={field.imageUrl}
-          />
-        </View>
-      ))}
-    </ScrollView>
+    ))}
+  </ScrollView>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#eee",
     padding: wp("5%"),
-    rowGap: "10%",
+  },
+  headerContainer: {
+    borderRadius: 10,
+    paddingVertical: hp("2%"),
+    backgroundColor: "white",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginTop: hp("5%"),
   },
   profileImage: {
     width: wp("10%"),
     height: wp("10%"),
     borderRadius: wp("10%"),
-    objectFit: "contain",
+    resizeMode: "contain",
   },
-  boxWithShadow: {
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 13,
+  welcomeText: {
+    color: "#64748b",
+    fontSize: wp("4%"),
+    fontWeight: "600",
+    marginLeft: wp("2%"),
   },
-  // cardContainer: {
-  //   flexDirection: "row",
-  //   flexWrap: "wrap",
-  //   justifyContent: "space-between",
-  // },
-  // card: {
-  //   width: wp("90%"),
-  //   marginBottom: hp("2%"),
-  //   marginBottom: "2%",
-  // },
-  // cardTitle: {
-  //   fontSize: wp("4%"),
-  //   fontWeight: "bold",
-  //   color: "#A68A56",
-  // },
-  // cardContent: {
-  //   fontSize: wp("3.5%"),
-  //   color: "#D9D6D2",
-  // },
+  sectionTitle: {
+    color: "#64748b",
+    fontSize: wp("5%"),
+    fontWeight: "700",
+    marginTop: hp("2%"),
+  },
 });

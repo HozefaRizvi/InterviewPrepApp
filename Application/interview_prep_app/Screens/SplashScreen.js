@@ -1,32 +1,46 @@
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Image, Animated, Easing } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View,Image ,ActivityIndicator} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-export  function SplashScreen() {
-  const navigation  = useNavigation()
-  
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigation.navigate('SignInScreen'); 
-    }, 5000); 
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
+export function SplashScreen() {
+  const navigation = useNavigation();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-    return () => clearTimeout(timeout); 
-  }, [navigation]);
+  useEffect(() => {
+    const fadeInAnimation = Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    });
+
+    fadeInAnimation.start();
+
+    const timeout = setTimeout(() => {
+      navigation.navigate('SignInScreen');
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+      fadeAnim.setValue(0);
+    };
+  }, [navigation, fadeAnim]);
 
   return (
     <View style={styles.container}>
-        <Image
-        style = {styles.img}
-        resizeMode='contain'
+      <Animated.Image
+        style={[styles.img, { opacity: fadeAnim }]}
+        resizeMode="contain"
         source={require('../Logos/SplashScreenLogo.png')}
-        />
-        <Text style = {styles.heading}>Interview Preparation Application</Text>
-        <Text style = {styles.text}>(For Software Engineering Graduates)</Text>
-        <ActivityIndicator size="medium" color="#1F598C" style ={styles.activity}/>
+      />
+      <Animated.Text style={[styles.heading, { opacity: fadeAnim }]}>Interview Prep App</Animated.Text>
+      <Text style={styles.subHeading}>(For Software Engineering Graduates)</Text>
+      <View style={styles.activity}>
+        <Image source={require('../Logos/spinner2.gif')} style={{ width: 300, height: 150 }} />
+      </View>
     </View>
   );
 }
@@ -34,30 +48,26 @@ export  function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   heading: {
-    padding: 5,
-    fontSize: 22,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
-    marginTop: hp("5"),
-    fontFamily:'sans-serif'
+    color: '#1F598C', // Adjusted color
+    marginTop: hp('3%'),
+    fontFamily: 'sans-serif',
   },
-  text:{
-    padding: 5,
+  subHeading: {
     fontSize: 18,
-    color: '#333',
+    color: '#1F598C', // Adjusted color
   },
-  img:{
+  img: {
     width: wp('75%'),
-    height: hp('50%')
+    height: hp('30%'),
   },
-  activity:{
-    padding:20,
-    marginBottom: hp('5')
-  }
- 
+  activity: {
+    marginTop: hp('5%'),
+  },
 });

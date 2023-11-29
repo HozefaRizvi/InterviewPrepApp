@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import {
   View,
   Text,
@@ -12,9 +12,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 import * as ImagePicker from "expo-image-picker";
 import CustomButton from "../../CustomComponents/CustomButton";
-
+import AuthContext from '../../ReactContext/AuthContext'
 export function SetupProfile({ navigation }) {
   const [university, setUniversity] = useState("");
   const [country, setCountry] = useState("");
@@ -23,7 +26,9 @@ export function SetupProfile({ navigation }) {
   const [expertChecked, setExpertChecked] = useState(false);
   const [interviewChecked, setInterviewChecked] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
-
+  const { user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+  const API_BASE_URL = 'http://192.168.18.5:5001';
   useEffect(() => {
     // Request permission to access the gallery
     (async () => {
@@ -48,7 +53,51 @@ export function SetupProfile({ navigation }) {
       setProfileImage(result.uri);
     }
   };
-
+  const handleProfileSetup = async () => {
+    const profileData = {
+      ProfilePic: profileImage || '',
+      University: university,
+      Country: country,
+      City: city,
+      CGPA: cgpa,
+      Expert: expertChecked ? 'Expert' : 'Candidate',
+      GivenInterview: interviewChecked ? 'Yes' : 'No',
+      isSetupProfile: true
+    };
+  
+    try {
+      const response = await fetch(`${API_BASE_URL}/SetupProfile_Candidate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Email: user.email,
+          ProfileData: profileData,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Profile set up successfully:', data.Message);
+        // Navigate to the next screen (e.g., Tab Navigator)
+        login({
+          ...user,
+          Profile: profileData,
+        });
+        navigation.navigate('SignInScreen');
+      } else {
+        // Handle profile setup failure
+        console.log('Profile setup failed:', data.Message);
+        // You might want to show an error message to the user or handle it accordingly
+      }
+    } catch (error) {
+      console.error('Error during profile setup:', error);
+      // Handle error
+    }
+  };
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileContainer}>
@@ -135,7 +184,7 @@ export function SetupProfile({ navigation }) {
 
         <CustomButton
           title="Setup Profile"
-          onPress={() => navigation.navigate("TabNavigationn")}
+          onPress={handleProfileSetup}
           buttonStyle={styles.customButtonStyle}
           textStyle={styles.customTextStyle}
         />

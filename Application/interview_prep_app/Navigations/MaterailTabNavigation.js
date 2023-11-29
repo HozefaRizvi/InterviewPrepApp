@@ -1,10 +1,11 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Ionicons } from "@expo/vector-icons"; // Import Ionicons from Expo Icons
 import { StudyQuestionsScreen } from "../Screens/UserPanel/StudyQuestions";
 import { HomeScreen } from "../Screens/UserPanel/HomeScreen";
 import Community from "../Screens/UserPanel/Community";
-import { Image } from "react-native";
+import MockInterview from "../Screens/MockInterview/mockinterviewscreen";
+import SettingScreen from "../Screens/UserPanel/SettingScreen/settingscreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -15,7 +16,7 @@ export default function MaterailTabNavigation() {
       shifting={true} // Use shifting animation
       activeColor="#fb9678" //  color for active tab
       inactiveColor="#757575" // Gray color for inactive tab
-      barStyle={{ backgroundColor: "#ffffff", height: 86 }} // Customize the background color and height
+      barStyle={{ backgroundColor: "#ffffff", height: 66 }} // Customize the background color and height
     >
       <Tab.Screen
         name="HomeScreen"
@@ -23,7 +24,7 @@ export default function MaterailTabNavigation() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={24} />
+            <Ionicons name="ios-home" color={color} size={20} /> // Use Ionicons
           ),
         }}
       />
@@ -31,13 +32,9 @@ export default function MaterailTabNavigation() {
         name="Community"
         component={Community}
         options={{
-          tabBarLabel: "community",
+          tabBarLabel: "Community",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="account-group-outline"
-              color={color}
-              size={24}
-            />
+            <Ionicons name="ios-people" color={color} size={20} />
           ),
         }}
       />
@@ -47,11 +44,30 @@ export default function MaterailTabNavigation() {
         options={{
           tabBarLabel: "Study Bank",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="book" color={color} size={24} />
+            <Ionicons name="ios-book" color={color} size={20} />
           ),
         }}
       />
-      {/* Add more Tab.Screen components for additional tabs */}
+       <Tab.Screen
+        name="Mock Interview "
+        component={MockInterview}
+        options={{
+          tabBarLabel: "Mock Interview ",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="tv-outline" color={color} size={20} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          tabBarLabel: "Setting",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings-outline" color={color} size={20} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
