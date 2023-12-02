@@ -20,6 +20,8 @@ import ViewAnswer from "../Screens/UserPanel/FieldScreens/ViewAnswer";
 import UserContributionScreen from "../Screens/UserPanel/UserContributionsScreen";
 import AddQuestion from "../Screens/UserPanel/AddQuestion";
 import ViewUserContributedAnswer from "../Screens/UserPanel/ViewUserAnswer";
+import AddComment from "../Screens/UserPanel/AddComment";
+
 export default function StackNavigation() {
   const Stack = createStackNavigator();
   return (
@@ -86,6 +88,11 @@ export default function StackNavigation() {
           component={ViewUserContributedAnswer}
           options={{ headerShown: false }}
         />
+         <Stack.Screen
+          name="AddComment"
+          component={AddComment}
+          options={{ headerShown: false }}
+        />       
       </Stack.Navigator>
      
       </AuthProvider>

@@ -21,52 +21,40 @@ import {
 import CustomButton from "../../CustomComponents/CustomButton";
 import {WaveIndicator} from 'react-native-indicators';
 import AuthContext from "../../ReactContext/AuthContext";
-export default function AddQuestion({ route }) {
-    const {field,value,selectedSegmentLabel} = route.params
-    const [question, setquestion] = useState("");
-    const [answer, setanswer] = useState("");
-    const { user } = useContext(AuthContext);
-    const [loading, setLoading] = useState(false);
-    const userEmail = user.email
-    const selectedField = field
-    const selectedtype = value
-    const [message,setmessage]= useState("Add Question to Repository")
-    const onPressAddQuestion =async  ()=>{
-      
-       const UserContributedQuestion = {
-          ChoosenField: field,
-          ChoosenType: value,
-          Question : question,
-          Answer: answer,
-          Author: user.email
-       }
-       try {
-        const response = await fetch('http://192.168.18.5:5001/add_userbased_questions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            QuestionData: UserContributedQuestion,
-          }),
-        });
-    
-        const data = await response.json();
-    
-        if (response.ok) {
-          console.log('Added : ', data);
-          setmessage("Added Successfully")
-         
-        } else {
-          console.log('NOt Added', data);
-          setmessage("Failed to Addd")
 
+export default function AddComment({ route }) {
+    const { user } = useContext(AuthContext); 
+    const [comment,setcomment] = useState('')
+    const userEmail = user.email
+    const {Question,Answer,Author,Field} = route.params;
+    const addComment = async () => {
+        try {
+            const response = await fetch("http://192.168.18.5:5001/add_comment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    author: Author,
+                    field:Field,
+                    question: Question,
+                    comment: comment,
+                    userEmail: userEmail,
+                }),
+            });
+
+            const data = await response.json();
+
+            // Handle the response from the backend, you can check for success or display an error message
+            if (data.success) {
+                console.log("Comment added successfully");
+            } else {
+                console.error("Failed to add comment: ", data.error_message);
+            }
+        } catch (error) {
+            console.error("Error adding comment: ", error);
         }
-      } catch (error) {
-        console.error('Error added:', error);
-        setmessage("Failed to Add")
-      }
-    }
+    };
   return(
     <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
       <View style={styles.profileContainer}>
@@ -81,12 +69,12 @@ export default function AddQuestion({ route }) {
         </TouchableOpacity>
       </View>
       <View style={styles.profileThings}>
-      <Text style = {styles.heading}>Add Question:</Text>
+      <Text style = {styles.heading}>Add Comment:</Text>
         <TextInput
-        label="Question"
-        value={question}
+        label="Comment"
+        value={comment}
         onChangeText={(text) => {
-          setquestion(text);
+          setcomment(text);
         }}
         mode="outlined"
         style={styles.input}
@@ -96,24 +84,9 @@ export default function AddQuestion({ route }) {
           },
         }}
         />
-         <Text style = {styles.heading}>Add Answer:</Text>
-        <TextInput
-        label="Answer"
-        value={answer}
-        onChangeText={(text) => {
-          setanswer(text);
-        }}
-        mode="outlined"
-        style={styles.input1}
-        theme={{
-          colors: {
-            primary: "#716FA6",
-          },
-        }}
-        />
             <CustomButton
-              title={message}
-              onPress={onPressAddQuestion}
+              title={"Add Comment"}
+              onPress={addComment}
               buttonStyle={styles.customButtonStyle}
               textStyle={styles.customTextStyle}
             />

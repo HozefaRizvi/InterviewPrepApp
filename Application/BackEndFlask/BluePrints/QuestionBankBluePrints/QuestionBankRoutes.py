@@ -166,4 +166,47 @@ def get_userbased_questions():
     except Exception as e:
         return jsonify({"success": False, "error_message": str(e)})
 
+@questionbank_bp.route("/add_comment", methods=["POST"])
+def add_comment():
+    try:
+        data = request.json
+        author = data.get('author', '')
+        question = data.get('question', '')
+        comment_text = data.get('comment', '')
+        userEmail = data.get('userEmail', '')
+        choosenfield = data.get('field', '')
+
+        if not author or not question or not comment_text or not userEmail:
+            raise ValueError("Required fields not found in request data")
+
+        query = (
+            db.collection("QuestionBank")
+            .document(choosenfield)
+            .collection("userbasedquestions")
+            .where("Question", "==", question)
+            .where("Author", "==", author)
+        )
+
+        docs = query.get()
+
+        if not docs:
+            raise ValueError("Document not found")
+
+        doc_ref = docs[0].reference
+        current_data = doc_ref.get().to_dict()
+
+        if current_data is None or "Comments" not in current_data:
+            current_comments = []
+        else:
+            current_comments = current_data["Comments"]
+
+        new_comment = {"comment": comment_text, "commentby": userEmail}
+        updated_comments = current_comments + [new_comment]
+
+        doc_ref.set({"Comments": updated_comments}, merge=True)
+
+        return jsonify({"success": True, "message": "Comment added successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "error_message": str(e)})
+
 

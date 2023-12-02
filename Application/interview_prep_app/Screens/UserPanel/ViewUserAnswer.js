@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Avatar, Card, Button } from "react-native-paper";
+import { Card as PaperCard } from 'react-native-paper';
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -22,13 +23,13 @@ export default function ViewUserContributedAnswer({ route }) {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
   const navigation = useNavigation();
-  const {Question,Answer,Author} = route.params;
+  const {Question,Answer,Author,Comments} = route.params;
 
  
 
   return (
-    <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
-      <View style={styles.profileContainer}>
+     <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
+     <View style={styles.profileContainer}>
         <TouchableOpacity>
           <View style={styles.profileImageContainer}>
             <Image
@@ -39,17 +40,28 @@ export default function ViewUserContributedAnswer({ route }) {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.profileThings}>
-        <Text style={styles.questionheading}>Question:</Text>
-        <Text style={styles.question}>{Question}?</Text>
-        <Text style={styles.questionheading}>Author:</Text>
-        <Text style={styles.question}>{Author}</Text>
-        <Text style={styles.questionheading}>Answer:</Text>
-        <ScrollView style={styles.tableContainer}>  
-        <Text style={styles.answer}>{Answer}</Text>
-        </ScrollView>
-      </View>
-    </ScrollView>
+     <View style={styles.profileThings}>
+       <Text style={styles.questionheading}>Question:</Text>
+       <Text style={styles.question}>{Question}?</Text>
+       <Text style={styles.questionheading}>Author:</Text>
+       <Text style={styles.question}>{Author}</Text>
+       <Text style={styles.questionheading}>Answer:</Text>
+       <Text style={styles.answer}>{Answer}</Text>
+       <Text style={styles.questionheading}>Comments:</Text>
+       {Array.isArray(Comments) && Comments.length > 0 ? (
+          Comments.map((comment, index) => (
+            <PaperCard key={index} style={styles.commentCard}>
+              <PaperCard.Content>
+                <Text style={styles.commentHeading}>Comment By: {comment.commentby}</Text>
+                <Text style={styles.commentText}>{comment.comment}</Text>
+              </PaperCard.Content>
+            </PaperCard>
+          ))
+        ) : (
+          <Text style={styles.answer}>No comments</Text>
+        )}
+     </View>
+   </ScrollView>
   );
 }
 
@@ -77,14 +89,15 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 2,
     marginTop: hp("2%"),
-    backgroundColor: "#D0D9F2",
+    backgroundColor: "white",
     borderTopStartRadius: wp("10%"),
     borderTopEndRadius: wp("10%"),
     padding: wp("5%"),
     height: hp("80%"),
   },
   tableContainer: {
-    flex: 1,
+    
+  
   },
   questionheading: {
     fontSize: wp("6%"),
@@ -98,5 +111,18 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: wp("5%"),
+  },
+  commentCard: {
+    marginVertical: wp('2%'),
+  },
+  commentText: {
+    fontSize: wp('4%'),
+  },
+  commentHeading: {
+    fontSize: wp('4%'),
+    fontWeight: 'bold',
+  },
+  commentText: {
+    fontSize: wp('4%'),
   },
 });
