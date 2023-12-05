@@ -42,7 +42,7 @@ export default function MaterailTabNavigation() {
         name="StudyQuestion"
         component={StudyQuestionsScreen}
         options={{
-          tabBarLabel: "Study Bank",
+          tabBarLabel: "Contributions",
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-book" color={color} size={20} />
           ),

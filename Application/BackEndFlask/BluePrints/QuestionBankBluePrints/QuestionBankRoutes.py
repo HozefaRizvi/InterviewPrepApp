@@ -5,7 +5,7 @@ from BluePrints.FirebaseInitlization.FirebaseInit import db
 questionbank_bp = Blueprint("QuestionBankBluePrint",__name__)
 
 @questionbank_bp.route("/add_crm_systembased_questions", methods=["POST"])
-def add_crm_questions():
+def add_crm_questions(): 
     try:
         # Load JSON data from the file
         json_file_path = r'E:\7th Semester\Final Year Project\InterviewPrepApp\Application\BackEndFlask\BluePrints\QuestionBankBluePrints\QuestionDataBase\CRMDATA.json'

@@ -72,21 +72,21 @@ def setup_candidate_profile():
     else:
         return jsonify({"Message": "Use POST method to set up a profile"}), 405
 
-@candidate_bp.route('/GetCandidateData', methods=['POST'])
-def get_candidate_data():
-    if request.method == 'POST':
-        data = {"UserName": "HozefaRizvi", "Email": "hozefa@gmail.com", "Password": "12345"}
-        email = data.get('Email')
+# @candidate_bp.route('/GetCandidateData', methods=['POST'])
+# def get_candidate_data():
+#     if request.method == 'POST':
+#         data = {"UserName": "HozefaRizvi", "Email": "hozefa@gmail.com", "Password": "12345"}
+#         email = data.get('Email')
 
-        if not email:
-            return jsonify({"Message": "Email is required"}), 400
+#         if not email:
+#             return jsonify({"Message": "Email is required"}), 400
         
-        candidate_docs = db.collection('Candidates').where('Email', '==', email).stream()
+#         candidate_docs = db.collection('Candidates').where('Email', '==', email).stream()
 
-        candidate_data = []
-        for candidate_doc in candidate_docs:
-            candidate_data.append(candidate_doc.to_dict())
+#         candidate_data = []
+#         for candidate_doc in candidate_docs:
+#             candidate_data.append(candidate_doc.to_dict())
 
-        return jsonify({"CandidateData": candidate_data})
-    else:
-        return jsonify({"Message": "Use POST method to retrieve candidate data"}), 405
+#         return jsonify({"CandidateData": candidate_data})
+#     else:
+#         return jsonify({"Message": "Use POST method to retrieve candidate data"}), 405
