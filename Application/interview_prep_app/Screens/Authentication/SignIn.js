@@ -21,6 +21,7 @@ import {
 import AuthContext from '../../ReactContext/AuthContext'
 import {UIActivityIndicator,} from 'react-native-indicators';
 import { LogBox } from 'react-native';
+import { baseurl } from "../../API";
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();
 export function SignInScreen({ navigation }) 
@@ -29,7 +30,7 @@ export function SignInScreen({ navigation })
   const [password, setpassword] = useState("");
   const { login, storeQuestionBankData } = useContext(AuthContext);
   const [error, seterror] = useState('');
-  const API_BASE_URL = 'http://192.168.18.5:5001';
+  const API_BASE_URL = baseurl;
   const [loading, setLoading] = useState(false);
   const handleSignIn = async () => {
     try {

@@ -22,6 +22,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import AuthContext from "../../ReactContext/AuthContext";
+import {baseurl} from '../../API'
 export function SignUpScreen({ navigation }) {
   const [email, setemail] = useState("");
   const { login, storeQuestionBankData } = useContext(AuthContext);
@@ -31,7 +32,7 @@ export function SignUpScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState("");
 
-  const API_BASE_URL = 'http://192.168.18.5:5001';
+  const API_BASE_URL = baseurl;
   
   const signUpCandidate = async () => {
     try {

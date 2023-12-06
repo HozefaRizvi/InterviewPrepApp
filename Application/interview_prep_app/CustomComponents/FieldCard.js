@@ -22,7 +22,7 @@ export function FieldCard({
       backgroundColor: "#eee",
     },
     cardContainer: {
-      backgroundColor: "white",
+      backgroundColor: "#F2EDE4",
       borderRadius: 10,
       padding: wp("5%"), // Adjust padding as needed
       marginBottom: hp("2%"), // Add margin to separate cards
@@ -41,7 +41,7 @@ export function FieldCard({
     },
     headingTextStyling: {
       color: `${textColor}`,
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: "600",
     },
     contentTextStyling: {
@@ -108,7 +108,7 @@ export function FieldCard({
       />
       <View>
         <Text style={style.headingTextStyling}>
-          {title.length > 14 ? title.substr(0, 22) + "..." : title}
+          {title.length > 14 ? title.substr(0, 50) + "..." : title}
         </Text>
         <Text style={style.contentTextStyling} numberOfLines={2}>
         {truncateText(content, 10)}

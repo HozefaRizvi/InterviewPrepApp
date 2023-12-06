@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { WaveIndicator } from 'react-native-indicators';
 import { FontAwesome } from '@expo/vector-icons';
+import { baseurl } from "../../API";
 export default function UserContributionScreen({ route }) {
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
@@ -15,7 +16,7 @@ export default function UserContributionScreen({ route }) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.18.5:5001/get_userbased_questions', {
+      const response = await fetch(encodeURI(`${baseurl}/get_userbased_questions`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

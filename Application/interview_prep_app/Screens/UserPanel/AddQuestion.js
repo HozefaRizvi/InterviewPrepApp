@@ -21,6 +21,7 @@ import {
 import CustomButton from "../../CustomComponents/CustomButton";
 import {WaveIndicator} from 'react-native-indicators';
 import AuthContext from "../../ReactContext/AuthContext";
+import { baseurl } from "../../API";
 export default function AddQuestion({ route }) {
     const {field,value,selectedSegmentLabel} = route.params
     const [question, setquestion] = useState("");
@@ -41,7 +42,7 @@ export default function AddQuestion({ route }) {
           Author: user.email
        }
        try {
-        const response = await fetch('http://192.168.18.5:5001/add_userbased_questions', {
+        const response = await fetch(encodeURI(`${baseurl}/add_userbased_questions`), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

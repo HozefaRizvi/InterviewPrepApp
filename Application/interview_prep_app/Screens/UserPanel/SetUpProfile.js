@@ -13,6 +13,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LogBox } from 'react-native';
+import {baseurl} from '../../API'
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();
 import * as ImagePicker from "expo-image-picker";
@@ -28,7 +29,8 @@ export function SetupProfile({ navigation }) {
   const [profileImage, setProfileImage] = useState(null);
   const { user } = useContext(AuthContext);
   const { login } = useContext(AuthContext);
-  const API_BASE_URL = 'http://192.168.18.5:5001';
+ 
+  const API_BASE_URL = baseurl;
   useEffect(() => {
     // Request permission to access the gallery
     (async () => {

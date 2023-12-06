@@ -29,6 +29,7 @@ import {
   UIActivityIndicator,
   WaveIndicator,
 } from 'react-native-indicators';
+import { baseurl } from "../../../API";
 export default function FieldQuestions({ route }) {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
@@ -41,7 +42,7 @@ export default function FieldQuestions({ route }) {
       const questionSet = label;
 
       try {
-        const response = await fetch("http://192.168.18.5:5001/get_question_set", {
+        const response = await fetch(encodeURI(`${baseurl}/get_question_set`), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

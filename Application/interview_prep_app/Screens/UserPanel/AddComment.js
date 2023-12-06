@@ -21,6 +21,7 @@ import {
 import CustomButton from "../../CustomComponents/CustomButton";
 import {WaveIndicator} from 'react-native-indicators';
 import AuthContext from "../../ReactContext/AuthContext";
+import { baseurl } from "../../API";
 
 export default function AddComment({ route }) {
     const { user } = useContext(AuthContext); 
@@ -29,7 +30,7 @@ export default function AddComment({ route }) {
     const {Question,Answer,Author,Field} = route.params;
     const addComment = async () => {
         try {
-            const response = await fetch("http://192.168.18.5:5001/add_comment", {
+            const response = await fetch(encodeURI(`${baseurl}/add_comment`), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

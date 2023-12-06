@@ -82,7 +82,7 @@ export function HomeScreen({ navigation }) {
         />
       </TouchableOpacity>
 
-      <Text style={styles.welcomeText}>Welcome {user.username}</Text>
+      <Text style={styles.welcomeText}>Welcome Back {user.username}!</Text>
     </View>
 
     <Text style={styles.sectionTitle}>Software Engineering Fields</Text>
@@ -115,30 +115,34 @@ const styles = StyleSheet.create({
     padding: wp("5%"),
   },
   headerContainer: {
-    borderRadius: 10,
+    borderRadius: 20,
     paddingVertical: hp("2%"),
-    backgroundColor: "white",
+    backgroundColor: "#F2F2F2",
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
     marginTop: hp("5%"),
   },
   profileImage: {
-    width: wp("10%"),
-    height: wp("10%"),
+    width: wp("16%"),
+    height: wp("16%"),
     borderRadius: wp("10%"),
     resizeMode: "contain",
+    marginLeft:14
   },
   welcomeText: {
-    color: "#64748b",
+    color: "black",
     fontSize: wp("4%"),
     fontWeight: "600",
     marginLeft: wp("2%"),
+    fontWeight:'bold',
+    
   },
   sectionTitle: {
     color: "#64748b",
     fontSize: wp("5%"),
     fontWeight: "700",
     marginTop: hp("2%"),
+    marginBottom:hp('3%')
   },
 });
