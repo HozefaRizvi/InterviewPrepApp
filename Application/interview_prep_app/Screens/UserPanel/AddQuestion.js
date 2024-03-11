@@ -8,7 +8,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { Avatar, Card, Button ,TextInput} from "react-native-paper";
+import {Card, Button ,TextInput} from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { LogBox } from 'react-native';

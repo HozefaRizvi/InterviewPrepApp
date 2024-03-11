@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Modal,
+  FlatList
 } from "react-native";
 import { TextInput, RadioButton } from "react-native-paper";
 import {
@@ -19,6 +21,12 @@ LogBox.ignoreAllLogs();
 import * as ImagePicker from "expo-image-picker";
 import CustomButton from "../../CustomComponents/CustomButton";
 import AuthContext from '../../ReactContext/AuthContext'
+import { FixedSizeList as List } from "react-window";
+import DropDown from 'react-native-paper-dropdown';
+
+//firebase
+import { uploadBytes,ref,getDownloadURL,uploadString } from "firebase/storage";
+import { storage } from "../../Firebase/FirebaseConfig";
 export function SetupProfile({ navigation }) {
   const [university, setUniversity] = useState("");
   const [country, setCountry] = useState("");
@@ -29,8 +37,16 @@ export function SetupProfile({ navigation }) {
   const [profileImage, setProfileImage] = useState(null);
   const { user } = useContext(AuthContext);
   const { login } = useContext(AuthContext);
+  const [countriesData, setCountriesData] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [countryModalVisible, setCountryModalVisible] = useState(false);
+  const [cityModalVisible, setCityModalVisible] = useState(false);
+  const [firebaseurl,setfirebaseurl] = useState(null)
+
  
   const API_BASE_URL = baseurl;
+  
   useEffect(() => {
     // Request permission to access the gallery
     (async () => {
@@ -43,31 +59,59 @@ export function SetupProfile({ navigation }) {
   }, []);
 
   const pickImage = async () => {
-    // Launch ImagePicker to choose an image from the gallery
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.cancelled) {
-      setProfileImage(result.uri);
+      console.log(result.uri)
+      setProfileImage(result.uri)
     }
   };
-  const handleProfileSetup = async () => {
-    const profileData = {
-      ProfilePic: profileImage || '',
-      University: university,
-      Country: country,
-      City: city,
-      CGPA: cgpa,
-      Expert: expertChecked ? 'Expert' : 'Candidate',
-      GivenInterview: interviewChecked ? 'Yes' : 'No',
-      isSetupProfile: true
-    };
   
+  
+  
+  const handleProfileSetup = async () => {
     try {
+      let downloadURL = '';  // Initialize downloadURL
+  
+      // Check if profileImage is not empty
+      if (profileImage) {
+        // Generate a unique filename for the image (you may want to use a more sophisticated method)
+        const filename = `${user.email}_${Date.now()}.jpeg`;
+        const storageRef = ref(storage, `profile_images/${filename}`);
+  
+        // Convert the image URI to a Blob
+        const imageBlob = await fetch(profileImage).then((res) => res.blob());
+  
+        // Upload the image to Firebase Storage
+        const snapshot = await uploadBytes(storageRef, imageBlob);
+  
+        // Get the download URL for the uploaded image
+        downloadURL = await getDownloadURL(snapshot.ref);
+  
+        console.log('Download URL:', downloadURL);
+      }
+  
+  
+      // Continue with the rest of your code for profile setup
+  
+      // Create the profileData object
+      const profileData = {
+        ProfilePic: downloadURL || '', // Set default value if profileImage is empty
+        University: university,
+        Country: selectedCountry,
+        City: selectedCity,
+        CGPA: cgpa,
+        Expert: expertChecked ? 'Expert' : 'Candidate',
+        GivenInterview: interviewChecked ? 'Yes' : 'No',
+        isSetupProfile: true
+      };
+  
+      // Make the API call to store the profile data
       const response = await fetch(`${API_BASE_URL}/SetupProfile_Candidate`, {
         method: 'POST',
         headers: {
@@ -79,6 +123,7 @@ export function SetupProfile({ navigation }) {
         }),
       });
   
+      // Handle the API response
       const data = await response.json();
   
       if (response.ok) {
@@ -94,11 +139,86 @@ export function SetupProfile({ navigation }) {
         console.log('Profile setup failed:', data.Message);
         // You might want to show an error message to the user or handle it accordingly
       }
+  
     } catch (error) {
       console.error('Error during profile setup:', error);
       // Handle error
     }
   };
+ 
+  const fetchCountriesData = async () => {
+    try {
+      const response = await fetch("https://countriesnow.space/api/v0.1/countries");
+      const data = await response.json();
+    
+      if (!data.error) {
+        setCountriesData(data.data);
+       
+      }
+    } catch (error) {
+      console.error("Error fetching countries data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCountriesData();
+  }, []);
+
+  const openCountryModal = () => {
+    setCountryModalVisible(true);
+  };
+
+  const closeCountryModal = () => {
+    setCountryModalVisible(false);
+  };
+
+  const openCityModal = () => {
+    setCityModalVisible(true);
+  };
+
+  const closeCityModal = () => {
+    setCityModalVisible(false);
+  };
+
+
+  
+  const renderItemBox = ({ item, selectedValue, onSelect }) => (
+    <TouchableOpacity
+      style={[
+        styles.itemBox,
+        { backgroundColor: item === selectedValue ? "#3498db" : "#fff" },
+      ]}
+      onPress={() => onSelect(item)}
+    >
+      <Text style={{ color: item === selectedValue ? "#fff" : "#000" }}>
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
+  
+  const renderCountryItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.itemBox}
+      onPress={() => {
+        setSelectedCountry(item.country);
+        closeCountryModal();
+      }}
+    >
+      <Text style={styles.itemBoxText}>{item.country}</Text>
+    </TouchableOpacity>
+  );
+  
+  const renderCityItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.itemBox}
+      onPress={() => {
+        setSelectedCity(item);
+        closeCityModal();
+      }}
+    >
+      <Text style={styles.itemBoxText}>{item}</Text>
+    </TouchableOpacity>
+  );
   
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -132,23 +252,51 @@ export function SetupProfile({ navigation }) {
           theme={{ colors: { primary: "#3498db" } }}
         />
 
-        <TextInput
-          label="Country"
-          value={country}
-          onChangeText={(text) => setCountry(text)}
-          mode="outlined"
-          style={styles.input}
-          theme={{ colors: { primary: "#3498db" } }}
-        />
-
-        <TextInput
-          label="City"
-          value={city}
-          onChangeText={(text) => setCity(text)}
-          mode="outlined"
-          style={styles.input}
-          theme={{ colors: { primary: "#3498db" } }}
-        />
+    {/* Country Dropdown */}
+    {countriesData.length > 0 ? (
+        <View style={styles.dropdownContainer}>
+          <Text style={styles.dropdownLabel}>Select Country</Text>
+          <TouchableOpacity onPress={openCountryModal}>
+            <Text style = {{fontSize:20}}>{selectedCountry || "Select Country"}</Text>
+          </TouchableOpacity>
+          <Modal visible={countryModalVisible} animationType="slide">
+            <View style={styles.modalContainer}>
+              <FlatList
+                data={countriesData}
+                keyExtractor={(item) => item.country}
+                renderItem={renderCountryItem}
+                style = {{ backgroundColor:'#DEE0D5',padding:2,marginBottom:1}}
+              />
+              <TouchableOpacity onPress={closeCountryModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        </View>
+      ) : (
+        <Text>Loading countries...</Text>
+      )}
+      {selectedCountry && (
+        <View style={styles.citydropdownContainer}>
+          <Text style={styles.dropdownLabel}>City</Text>
+          <TouchableOpacity onPress={openCityModal}>
+            <Text style = {{fontSize:20}}>{selectedCity || "Select City"}</Text>
+          </TouchableOpacity>
+          <Modal visible={cityModalVisible} animationType="slide">
+              <View style={styles.modalContainer}>
+                <FlatList
+                  data={countriesData.find((country) => country.country === selectedCountry)?.cities}
+                  keyExtractor={(item) => item}
+                  renderItem={renderCityItem}
+                  
+                />
+                <TouchableOpacity onPress={closeCityModal} style={styles.closeButton}>
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+        </View>
+      )}
 
         <TextInput
           label="CGPA out of 4"
@@ -257,5 +405,48 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
     textAlign: "center",
+  },
+  dropdownContainer: {
+    marginBottom: hp("2%"),
+    borderRadius: wp("2%"),
+    padding: wp("1%"),
+    marginRight: wp('50%')
+  },
+  citydropdownContainer:{
+    marginBottom: hp("2%"),
+    borderRadius: wp("2%"),
+    padding: wp("1%"),
+    marginRight: wp('60%')
+  },
+  dropdownLabel: {
+    marginBottom: hp("1%"),
+    color: "#3498db",
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: wp("4%"),
+  },
+  closeButton: {
+    marginTop: hp("2%"),
+    alignItems: "center",
+  },
+  closeButtonText: {
+    color: "#3498db",
+    fontSize: 16,
+  },
+  itemBox: {
+    borderWidth: 1,
+    borderColor: "#3498db",
+    borderRadius: wp("2%"),
+    padding: wp("2%"),
+    marginVertical: hp("1%"),
+    alignItems: "center",
+    backgroundColor: "#fff", // Add a background color to make it stand out
+  },
+  itemBoxText: {
+    color: "#3498db",
+    fontSize: 16,
   },
 });

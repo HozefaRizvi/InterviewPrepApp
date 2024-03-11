@@ -18,19 +18,23 @@ export function FieldCard({
 }) {
   const style = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: "#eee",
+      width: "100%",
+      height: hp("40%"), // Set the card height
+      backgroundColor: "#5E6EBF",
+      borderRadius:20
     },
     cardContainer: {
-      backgroundColor: "#F2EDE4",
+      backgroundColor: "#c69939",
       borderRadius: 10,
       padding: wp("5%"), // Adjust padding as needed
       marginBottom: hp("2%"), // Add margin to separate cards
-      flexDirection: "row",
-      alignItems: "center",
+      alignItems: "center", // Center the contents horizontally
       width: "100%",
+      height: hp("40%"), // Set the card height
+      flexDirection: "column", // Set flexDirection to column
+      justifyContent: "center", // Center the contents vertically
       position: "relative", // Set position to relative
-      shadowColor: "#000000",
+      shadowColor: "#5E6EBF",
       shadowOffset: {
         width: 0,
         height: 10,
@@ -38,24 +42,26 @@ export function FieldCard({
       shadowOpacity: 0.10,
       shadowRadius: 6,
       elevation: 13,
+      borderRadius:20
     },
     headingTextStyling: {
       color: `${textColor}`,
-      fontSize: 16,
+      fontSize: 25,
       fontWeight: "600",
+      textAlign: "center", // Center the text
     },
     contentTextStyling: {
       marginTop: 5,
       color: `${textColor}`,
       fontSize: 10,
-      width: "55%", // Adjust the width as needed
+      width: "80%", // Adjust the width as needed
+      textAlign: "center", // Center the text
       flexWrap: "wrap",
     },
     btnView: {
       position: "absolute", // Set position to absolute
       bottom: 0,
-      right: 0,
-      color: "#1d4ed8",
+      color: "#202540",
       fontSize: 11,
       fontWeight: "600",
       marginTop: "1%",
@@ -73,54 +79,43 @@ export function FieldCard({
       elevation: 13,
     },
     customButtonStyle: {
-      backgroundColor: "#03c9d7", // #03c9d7
-      width: wp("20%"),
-      marginTop: wp("1%"),
-      left:wp('40%')
+      backgroundColor: "#18a1b4",
+      width: wp("70%"),
+      marginTop: wp("10%"),
     },
     customTextStyle: {
       color: "white",
-      fontSize: 12,
+      fontSize: 14,
       textAlign: "center",
       fontWeight: "600",
-      padding: "0%",
+      padding: "2%",
     },
   });
-  // const wrapContent = content
-  const truncateText = (text, count) => {
-    const words = text.split(' ');
-    return words.slice(0, count).join(' ') + (words.length > count ? '...' : '');
-  };
 
   return (
     <View style={style.container}>
-
-    <View style={[style.cardContainer,style.boxWithShadow]}>
-      
-      <Image
-        source={imageUrl}
-        style={{
-          width: "20%",
-          height: "100%",
-          objectFit: "contain",
-          marginRight: wp("3%"), // Add margin to create space between image and text
-        }}
-      />
-      <View>
-        <Text style={style.headingTextStyling}>
-          {title.length > 14 ? title.substr(0, 50) + "..." : title}
-        </Text>
-        <Text style={style.contentTextStyling} numberOfLines={2}>
-        {truncateText(content, 10)}
+      <View style={[style.cardContainer, style.boxWithShadow]}>
+        <Image
+          source={imageUrl}
+          style={{
+            width: "40%", // Adjust the width as needed
+            height: "30%", // Adjust the height as needed
+            objectFit: "contain",
+          }}
+        />
+        <View>
+          <Text style={style.headingTextStyling}>
+            {title}
           </Text>
-        <CustomButton
-          title="View"
-          onPress={onPressButton}
-          buttonStyle={style.customButtonStyle}
-          textStyle={style.customTextStyle}
+
+          <CustomButton
+            title="View"
+            onPress={onPressButton}
+            buttonStyle={style.customButtonStyle}
+            textStyle={style.customTextStyle}
           />
+        </View>
       </View>
     </View>
-          </View>
   );
 }

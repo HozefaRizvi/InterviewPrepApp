@@ -21,7 +21,13 @@ import UserContributionScreen from "../Screens/UserPanel/UserContributionsScreen
 import AddQuestion from "../Screens/UserPanel/AddQuestion";
 import ViewUserContributedAnswer from "../Screens/UserPanel/ViewUserAnswer";
 import AddComment from "../Screens/UserPanel/AddComment";
-
+import NewTrendsScreen from "../Screens/UserPanel/NewTrendScreens/NewTrends";
+import Messaging from "../Screens/ExpertInteractionsScreen/ChatsScreens/Messaging";
+import CustomerSupport from "../Screens/AdminSupport/CustomerSupport";
+import NewTrendScrapScreen from "../Screens/UserPanel/NewTrendScreens/WebScrapping/NewTrendsScrap";
+import VideoRecordingScreen from "../Screens/ExpertInteractionsScreen/VideoMessages/VideoRecording";
+import PreviewScreen from "../Screens/ExpertInteractionsScreen/VideoMessages/Preview";
+import SignUpGoogleScreen from "../Screens/Authentication/SignUpWithGmail/SignUpGoogle";
 export default function StackNavigation() {
   const Stack = createStackNavigator();
   return (
@@ -93,8 +99,43 @@ export default function StackNavigation() {
           component={AddComment}
           options={{ headerShown: false }}
         />       
+         <Stack.Screen
+          name="NewTrendsScreen"
+          component={NewTrendsScreen}
+          options={{ headerShown: false }}
+        />  
+          <Stack.Screen
+          name="Messaging"
+          component={Messaging}
+          options={{ headerShown: true }}
+        />  
+        <Stack.Screen
+          name="CustomerSupport"
+          component={CustomerSupport}
+          options={{ headerShown: false }}
+        />  
+        <Stack.Screen
+          name="NewTrendScrapScreen"
+          component={NewTrendScrapScreen}
+          options={{ headerShown: false }}
+        />  
+        <Stack.Screen
+          name="VideoRecordingScreen"
+          component={VideoRecordingScreen}
+          options={{ headerShown: false }}
+        />  
+        <Stack.Screen
+          name="PreviewScreen"
+          component={PreviewScreen}
+          options={{ headerShown: false }}
+        />  
+        <Stack.Screen
+          name="SignUpWithGoogle"
+          component={SignUpGoogleScreen}
+          options={{ headerShown: false }}
+        />  
       </Stack.Navigator>
-     
+          
       </AuthProvider>
     </NavigationContainer>
   );

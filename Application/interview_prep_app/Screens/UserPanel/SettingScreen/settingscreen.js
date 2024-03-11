@@ -30,7 +30,7 @@ export default function SettingScreen()
           <Text style={styles.subSectionHeading}>Customer Care</Text>
           <CustomButton
             title="Customer Care"
-            onPress={()=>navigation.navigate('AddQuestionScreen')}
+            onPress={()=>navigation.navigate('CustomerSupport')}
             buttonStyle={styles.customButton}
             textStyle={styles.customButtonText}
           />

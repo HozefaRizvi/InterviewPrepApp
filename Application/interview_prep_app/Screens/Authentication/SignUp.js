@@ -1,6 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { LogBox } from 'react-native';
+import { FontAwesome } from 'react-native-vector-icons';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
+
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();
 import { useContext } from "react";
@@ -34,7 +37,33 @@ export function SignUpScreen({ navigation }) {
 
   const API_BASE_URL = baseurl;
   
+  const validateEmail = (email) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
   const signUpCandidate = async () => {
+    // Validation checks
+    if (!username.trim()) {
+      setError("Username is required.");
+      return;
+    }
+
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Invalid email address.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/SignUp_Candidate`, {
         method: 'POST',
@@ -146,6 +175,15 @@ export function SignUpScreen({ navigation }) {
               buttonStyle={styles.customButtonStyle}
               textStyle={styles.customTextStyle}
             />
+            <TouchableOpacity
+              style={styles.googleButton}
+              onPress={() => {
+                navigation.navigate("SignUpWithGoogle")
+              }}
+            >
+             <MaterialCommunityIcons name="gmail" size={20} color="white" style={styles.gmailIcon}  />
+              <Text style={styles.googleButtonText}>Sign Up with Google Mail</Text>
+            </TouchableOpacity>
             <View style={styles.signInContainer}>
               <Text style={styles.signInText}>Already have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate("SignInScreen")}>
@@ -259,5 +297,23 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     marginBottom: 10,
+  },
+  googleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4285F4", // Google Blue color
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 14,
+  },
+  googleIcon: {
+    marginRight: 12,
+    color:'red'
+  },
+  googleButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "700",
   },
 });

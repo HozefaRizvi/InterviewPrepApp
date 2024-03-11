@@ -19,80 +19,94 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import CustomButton from "../../CustomComponents/CustomButton";
-import {WaveIndicator} from 'react-native-indicators';
+import {PulseIndicator} from 'react-native-indicators';
 import AuthContext from "../../ReactContext/AuthContext";
 import { baseurl } from "../../API";
 
+
 export default function AddComment({ route }) {
-    const { user } = useContext(AuthContext); 
-    const [comment,setcomment] = useState('')
-    const userEmail = user.email
-    const {Question,Answer,Author,Field} = route.params;
-    const addComment = async () => {
-        try {
-            const response = await fetch(encodeURI(`${baseurl}/add_comment`), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    author: Author,
-                    field:Field,
-                    question: Question,
-                    comment: comment,
-                    userEmail: userEmail,
-                }),
-            });
+  const { user } = useContext(AuthContext); 
+  const [comment, setComment] = useState('');
+  const [loading, setLoading] = useState(false);
+  const userEmail = user.email;
+  const { Question, Answer, Author, Field } = route.params;
 
-            const data = await response.json();
+  const addComment = async () => {
+      try {
+          setLoading(true); // Set loading to true when starting the request
+          const response = await fetch(encodeURI(`${baseurl}/add_comment`), {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  author: Author,
+                  field: Field,
+                  question: Question,
+                  comment: comment,
+                  userEmail: userEmail,
+              }),
+          });
 
-            // Handle the response from the backend, you can check for success or display an error message
-            if (data.success) {
-                console.log("Comment added successfully");
-            } else {
-                console.error("Failed to add comment: ", data.error_message);
-            }
-        } catch (error) {
-            console.error("Error adding comment: ", error);
-        }
-    };
-  return(
-    <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
-      <View style={styles.profileContainer}>
-        <TouchableOpacity>
-          <View style={styles.profileImageContainer}>
-            <Image
-              source={require("../../Logos/questionlogo.png")}
-              resizeMode="contain"
-              style={styles.img}
-            />
+          const data = await response.json();
+
+          // Handle the response from the backend, you can check for success or display an error message
+          if (data.success) {
+              console.log("Comment added successfully");
+          } else {
+              console.error("Failed to add comment: ", data.error_message);
+          }
+      } catch (error) {
+          console.error("Error adding comment: ", error);
+      } finally {
+          setLoading(false); // Set loading to false when the request is complete (success or failure)
+      }
+  };
+
+  return (
+      <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
+          <View style={styles.profileContainer}>
+              <TouchableOpacity>
+                  <View style={styles.profileImageContainer}>
+                      <Image
+                          source={require("../../Logos/questionlogo.png")}
+                          resizeMode="contain"
+                          style={styles.img}
+                      />
+                  </View>
+              </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.profileThings}>
-      <Text style = {styles.heading}>Add Comment:</Text>
-        <TextInput
-        label="Comment"
-        value={comment}
-        onChangeText={(text) => {
-          setcomment(text);
-        }}
-        mode="outlined"
-        style={styles.input}
-        theme={{
-          colors: {
-            primary: "#716FA6",
-          },
-        }}
-        />
-            <CustomButton
-              title={"Add Comment"}
-              onPress={addComment}
-              buttonStyle={styles.customButtonStyle}
-              textStyle={styles.customTextStyle}
-            />
-      </View>
-    </ScrollView>
+          <View style={styles.profileThings}>
+              <Text style={styles.heading}>Add Comment:</Text>
+              <TextInput
+                  label="Comment"
+                  value={comment}
+                  onChangeText={(text) => {
+                      setComment(text);
+                  }}
+                  mode="outlined"
+                  style={styles.input}
+                  theme={{
+                      colors: {
+                          primary: "#716FA6",
+                      },
+                  }}
+              />
+              <CustomButton
+                  title={"Add Comment"}
+                  onPress={addComment}
+                  buttonStyle={styles.customButtonStyle}
+                  textStyle={styles.customTextStyle}
+              />
+              {loading && (
+                  <PulseIndicator
+                      color="#716FA6"
+                      size={50}
+                      style={{ marginTop: hp("2%") }}
+                  />
+              )}
+          </View>
+      </ScrollView>
   );
 }
 

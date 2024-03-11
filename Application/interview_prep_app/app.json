@@ -24,7 +24,8 @@
         "permissions": [
           "READ_EXTERNAL_STORAGE",
           "WRITE_EXTERNAL_STORAGE",
-          "CAMERA"
+          "CAMERA", 
+          "RECORD_AUDIO"
         ]
       },
       "package": "com.hozefarizvi.interview_prep_app"

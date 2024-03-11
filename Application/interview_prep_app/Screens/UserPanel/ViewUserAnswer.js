@@ -48,6 +48,7 @@ export default function ViewUserContributedAnswer({ route }) {
        <Text style={styles.questionheading}>Answer:</Text>
        <Text style={styles.answer}>{Answer}</Text>
        <Text style={styles.questionheading}>Comments:</Text>
+       <ScrollView>
        {Array.isArray(Comments) && Comments.length > 0 ? (
           Comments.map((comment, index) => (
             <PaperCard key={index} style={styles.commentCard}>
@@ -60,6 +61,7 @@ export default function ViewUserContributedAnswer({ route }) {
         ) : (
           <Text style={styles.answer}>No comments</Text>
         )}
+        </ScrollView>
      </View>
    </ScrollView>
   );

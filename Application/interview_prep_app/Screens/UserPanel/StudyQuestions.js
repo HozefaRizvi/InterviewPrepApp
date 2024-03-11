@@ -60,7 +60,7 @@ export function StudyQuestionsScreen({navigation}) {
             right:  <TextInput.Icon  name={'menu-down'}  />,
             }}
             />
-         <Text style = {styles.subheading}>Choose Catogry</Text>
+         <Text style = {styles.subheading}>Choose Category</Text>
          <SegmentedButtons
             value={value}
             onValueChange={(newValue, newLabel) => {

@@ -1,0 +1,22 @@
+Interview Preparation Application Run:
+
+First Start Python Flask Backend (NewBackend):
+	- Go to app.py
+	- Press CTRL+F5 then debug will start in terminal
+	- Copy the link of the url 
+Now Start the front End Application (interview_prep_app):
+	- Make New Terminal 
+	- Install Node Modules : npm install
+	- Run following command : npx expo start 
+	- Pase the Link url copied from backend to api.js
+
+Admin Panel Run:
+
+Make new Terminal
+	-cd adminpanel
+	- run command npm install
+	- run command npm start
+If want to run the mock interview model:
+	-Go to the FlaskAppForModel folder open it in vs code
+	-Go to app.py then CTRL+F5 then debug will start it in terminal
+	-Copy the link of url and paste it in fron end  go to src/views/pages/MockInterviewAnalysis.js page 
