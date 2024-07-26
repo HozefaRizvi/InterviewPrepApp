@@ -3,6 +3,7 @@ import { View, TextInput, Text, FlatList, Pressable,ActivityIndicator } from "re
 import { WaveIndicator } from 'react-native-indicators';
 import MessageComponent from "./MessageCcomponent";
 import { Ionicons } from "@expo/vector-icons";
+
 import { styles } from "./ChatStyles";
 import AuthContext from "../../../ReactContext/AuthContext";
 import { baseurl } from "../../../API";
